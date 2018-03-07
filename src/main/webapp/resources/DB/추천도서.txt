@@ -1,0 +1,9 @@
+CREATE TABLE `recom_month_book` (
+  `seq` int(11) NOT NULL AUTO_INCREMENT,
+  `bookname` varchar(45) DEFAULT NULL,
+  `author` varchar(100) DEFAULT NULL,
+  `publisher` varchar(45) DEFAULT NULL,
+  `recom_month` varchar(10) DEFAULT NULL,
+  `img_book` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`seq`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

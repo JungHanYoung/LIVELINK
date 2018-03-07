@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhy.review.sql.reviewMapper"><!-- 인터페이스 -->
+<!-- id-메소드명   resultType=리턴타입   parameterType=파라미터타입 -->
+	
+    <select id="select" parameterType="map" resultType="map">
+		SELECT review.SEQ, member.ID, searchedulib.TITLE, review.CONTENT, review.REG_DATE, review.STARS
+		FROM review, member, searchedulib
+		WHERE review.m_seq = member.seq
+		AND review.s_seq = searchedulib.seq
+		
+		<if test="null != TITLE">
+			AND searchedulib.title LIKE CONCAT('%', #{TITLE}, '%')
+		</if>
+     	ORDER BY review.reg_date DESC
+		<if test="null != startNo">
+     	LIMIT #{startNo}, 10
+     	</if>
+		
+	</select> 
+	
+ 	<select id="selectMyReview" parameterType="map" resultType="map">
+		SELECT review.SEQ, member.ID, searchedulib.TITLE, review.CONTENT, review.REG_DATE
+		FROM review, member, searchedulib
+		WHERE review.m_seq = member.seq
+		AND review.s_seq = searchedulib.seq
+		AND member.seq = #{seq}
+		<if test="null != TITLE">
+			AND searchedulib.title LIKE CONCAT('%', #{TITLE}, '%')
+		</if>	
+			
+		<if test="null != startNo">
+     	LIMIT #{startNo}, 10
+     	</if>
+	</select>
+	
+	<select id="selectbys_seq" parameterType="int" resultType="map">
+		SELECT review.content, member.id, review.stars, review.reg_date  FROM review, member
+		WHERE review.s_seq = #{s_seq}
+		AND member.seq = review.m_seq
+	</select>
+	
+	<select id="select3" parameterType="map" resultType="map">
+		SELECT review.SEQ, member.ID, searchedulib.TITLE, review.CONTENT, review.REG_DATE, searchedulib.seq AS s_seq
+		FROM review, member, searchedulib
+		<if test="null != seq">
+     	WHERE review.seq = #{seq}
+     	AND review.m_seq = member.seq
+		AND review.s_seq = searchedulib.seq
+     	</if>
+	</select>
+<!--  	<select id="selectMyReview" parameterType="map" resultType="map">
+		SELECT REVIEW.SEQ, MEMBER.ID, SEARCHEDULIB.TITLE, REVIEW.CONTENT, REVIEW.REG_DATE
+		FROM REVIEW, MEMBER, SEARCHEDULIB
+		
+		WHERE 
+		MEMBER.ID=#{ID}
+		AND
+		REVIEW.m_seq = MEMBER.seq
+		AND 
+		REVIEW.s_seq = SEARCHEDULIB.seq
+		
+	</select> --> 
+	
+	<select id="select2" parameterType="map" resultType="map">
+		SELECT * 
+		FROM member
+		WHERE id=#{userid} <!--우항 seq에는 클릭했을 때 값이 들어가지..?  -->
+	</select>
+
+	<select id="selectCnt" parameterType="map" resultType="int">
+		SELECT COUNT(review.seq)
+		FROM review, searchedulib
+		WHERE review.s_seq = searchedulib.seq
+		<if test="null != TITLE">
+		AND searchedulib.title LIKE CONCAT('%', #{TITLE}, '%')
+		</if>
+		ORDER BY review.reg_date DESC
+	</select>
+	
+	<insert id="regist" parameterType="map">
+		INSERT INTO review (
+		   content
+		  ,stars
+		  ,m_seq
+		  ,s_seq
+		) VALUES (
+		  #{content}
+		 ,#{stars}
+		 ,#{m_seq}
+		 ,#{s_seq}
+		)
+	</insert>
+														
+	<update id="update" parameterType="map" >
+		UPDATE review 
+		SET content = #{content}		
+		WHERE seq = #{seq}		  
+	</update>
+	
+	<update id="reviewupdate" parameterType="map" >
+		UPDATE review 
+		SET content = #{content}
+		WHERE seq = #{seq}
+	</update>
+	
+	<delete id="reviewdelete" parameterType="map">
+
+		DELETE FROM review
+		 WHERE seq = #{seq}
+		 
+	</delete>
+	
+	<select id="stars_by_book" parameterType="int" resultType="map">
+		SELECT COUNT(*) AS 'count',stars FROM review
+		WHERE s_seq=#{s_seq}
+		GROUP BY stars
+		ORDER BY stars
+	</select>
+
+	
+</mapper>

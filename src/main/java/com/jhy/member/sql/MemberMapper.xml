@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhy.member.sql.MemberMapper"><!-- 인터페이스 -->
+
+<!-- id-메소드명   resultType=리턴타입   parameterType=파라미터타입 -->
+
+
+	<select id="select" resultType="map" parameterType="map">
+
+		SELECT *
+
+		FROM member
+
+		<if test="null != seq">
+		WHERE seq = #{seq}
+		</if>
+		<if test="null != id">
+		WHERE id=#{id}
+		</if>
+		<if test="null != name and null != email">
+		WHERE name=#{name}
+		AND email=#{email}
+		</if>
+		<if test="null != email">
+		AND email=#{email}
+		</if>
+		ORDER BY reg_date DESC
+		<if test="null != startNo">
+		LIMIT #{startNo}, 10
+		</if>
+		
+	</select>
+	
+	<select id="select2" resultType="map" parameterType="map">
+
+		SELECT *
+		FROM member
+		<if test="null != id">
+		WHERE id=#{id}
+		</if>
+		
+	</select>
+	
+
+	<select id="selectMyReview" resultType="map" parameterType="map">
+		SELECT *
+		FROM review
+		<if test="null != seq">
+		WHERE m_seq = #{seq}
+		</if>
+		
+	</select>
+	
+	<select id="myFavorite" resultType="map" parameterType="map">
+		SELECT *
+		FROM favoritelib
+		<if test="null != m_seq">
+		WHERE m_seq = #{m_seq}
+		</if>
+	</select>
+	
+	<select id="myLib" resultType="map" parameterType="map">
+		SELECT *
+		FROM library
+		<if test="null != lib_seq">
+		WHERE libraryNumber = #{lib_seq}
+		</if>
+	</select>
+	
+	<delete id="deleteMyLib" parameterType="map">
+		DELETE 
+		FROM favoritelib
+		WHERE lib_seq = #{seq}
+	
+	</delete>
+
+
+
+	<select id="selectCnt" resultType="int" parameterType="map">
+
+		SELECT COUNT(*)
+		FROM member
+		<if test="null != seq">
+		WHERE seq = #{seq}
+		</if>
+		<if test="null != name">
+     		 WHERE name LIKE CONCAT('%', #{name}, '%')
+      	</if>
+		ORDER BY reg_date DESC	
+	</select>
+
+	<!-- <delete id="delete" parameterType="map">
+
+		DELETE FROM member
+
+		WHERE seq = ${seq}
+
+	</delete> -->
+
+	
+
+	<update id="update" parameterType="map">
+
+		UPDATE member SET
+		  name = #{name}
+		  ,email = #{email}
+		  ,age = #{age}
+		  ,tel = #{tel}
+		  ,addrnum = #{addrnum}
+		  ,road = #{road}
+		  ,Refer = #{Refer}
+		  ,detail = #{detail}
+		 <if test="null != seq">
+
+		WHERE seq = #{seq}
+		  
+		</if> 
+	</update>
+
+	<select id = "logincheck" resultType ="map" parameterType="map">
+		SELECT * 
+		FROM member 
+		WHERE id=#{id} and pw=#{pw}
+	</select>
+		
+		
+		
+	<select id = "idDobleCheck" resultType ="String" parameterType="String">
+		SELECT member.id 
+		FROM member 
+		WHERE id=#{id}	
+			
+	</select>
+	
+	
+	<insert id="memberRegist" parameterType="map" >
+		INSERT INTO member (
+		   id
+		  ,pw
+		  ,name
+		  ,email
+		  ,age
+		  ,tel
+		  ,addrnum
+		  ,road
+		  ,Refer
+		  ,detail
+		) VALUES (
+		  #{id}
+		  ,#{pw}
+		  ,#{name}
+		  ,#{email} 
+		  ,#{age}
+		  ,#{tel}
+		  ,#{addrnum}
+		  ,#{road}
+		  ,#{Refer} 
+		  ,#{detail}
+		 
+		)
+	</insert>
+	
+	<select id="reservation" parameterType="map" resultType="map">
+	
+	 SELECT RESERVATION.SEQ, MEMBER.ID, SEARCHEDULIB.libname, SEARCHEDULIB.title,
+	 SEARCHEDULIB.author, SEARCHEDULIB.publisher, RESERVATION.reg_date
+	 FROM RESERVATION, MEMBER, SEARCHEDULIB
+	 WHERE RESERVATION.m_seq = MEMBER.seq
+	 AND RESERVATION.s_seq = SEARCHEDULIB.seq
+	 AND RESERVATION.m_seq = #{m_seq}
+	 
+		
+	<if test="null != startNo">
+   	LIMIT #{startNo}, 10
+    </if>
+	
+	</select>
+	
+	<update id="updatepw" parameterType="map">
+	UPDATE member
+	SET pw=#{pw}
+	WHERE id=#{id}
+	</update>
+	
+	<!-- 가져올 값들을 정리  -->
+	
+	<insert id ="insertreser" parameterType="map" >
+	INSERT INTO reservation (
+	s_seq 
+	, m_seq
+	 ) 
+	
+	VALUES (
+	#{s_seq}
+	,#{m_seq}
+		   )
+		   
+	
+			   
+	</insert>
+	
+	<delete id ="deletebook" parameterType="map"  >
+	
+	DELETE
+	FROM reservation 
+	WHERE seq = #{s_seq}
+
+	 
+	</delete>
+
+	<select id="total_cnt" resultType="int" parameterType="map">
+		SELECT COUNT(*)
+		FROM RESERVATION
+		WHERE m_seq =#{m_seq}
+		ORDER BY reg_date DESC
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+</mapper>

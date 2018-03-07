@@ -1,0 +1,15 @@
+CREATE DATABASE libsearch
+
+CREATE TABLE `searchedulib` (
+  `seq` int(11) NOT NULL AUTO_INCREMENT,
+  `libname` varchar(100) DEFAULT NULL,
+  `detaillib` varchar(100) DEFAULT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  `subtitle` varchar(100) DEFAULT NULL,
+  `author` varchar(100) DEFAULT NULL,
+  `publisher` varchar(100) DEFAULT NULL,
+  `pubyear` varchar(100) DEFAULT NULL,
+  `img_book_ori` varchar(100) DEFAULT NULL,
+  `img_book_new` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`seq`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

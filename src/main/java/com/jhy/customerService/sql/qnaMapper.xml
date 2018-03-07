@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhy.customerService.sql.qnaMapper">
+	<select id="select" resultType="map" parameterType="map">
+		SELECT *
+		FROM qnalist
+		
+     	<if test="null != title">
+     	WHERE qnaTitle LIKE CONCAT('%',#{title},'%')
+     	</if>
+     	<if test="null != select_qna">
+     		<if test="select_qna == 1">
+     			AND reply IS NULL
+     		</if>
+     		<if test="select_qna == 2">
+     			AND reply IS NOT NULL
+     		</if>
+     	</if>
+     	ORDER BY qnaRegDate DESC
+     	<if test="null != startNo">
+     	LIMIT #{startNo}, 10
+     	</if>
+	</select>
+	<select id="checkqnapw" resultType="map" parameterType="map">
+		SELECT *
+		FROM qnalist
+		
+		<if test="null != qnaSeq">
+     	WHERE qnaSeq = #{qnaSeq}
+     	</if>
+	</select>
+	
+	<select id="total_cnt" resultType="int" parameterType="map">
+		SELECT count(*) as total_cnt
+		FROM qnalist
+	</select>
+	
+	<select id="selectSpec" resultType="map" parameterType="map">
+		SELECT *
+		FROM qnalist
+		WHERE qnaSeq = #{qnaSeq}
+	</select>
+	
+	<update id="replyqna" parameterType="map">
+		UPDATE qnalist SET reply=#{reply} WHERE qnaSeq=#{qnaSeq}
+	</update>
+	
+	<select id="selectBysecret" resultType="map" parameterType="map">
+		SELECT *
+		FROM qnalist
+		<if test="avail == 1">
+			WHERE reply IS NULL
+		</if>
+		<if test="avail == 2">
+			WHERE reply IS NOT NULL
+		</if>
+	</select>
+	
+	<insert id="write" parameterType="map" >
+		INSERT INTO qnalist (
+			qnaTitle,
+			qnaContent,
+			userid
+			,is_secret
+			,secret_pw
+		) VALUES (
+		  #{qnaTitle},
+		  #{qnaContent},
+		  #{userid}
+		  ,#{is_secret}
+		  ,#{secret_pw}
+		)
+	</insert>
+	
+	<update id="qnaupdate" parameterType="map">
+
+		UPDATE qnalist SET
+		  qnaTitle = #{qnaTitle}
+		  ,qnaContent = #{qnaContent}
+		  ,is_secret = #{is_secret}
+<!-- 		  ,secret_pw = #{secret_pw}
+ -->		 WHERE qnaSeq = #{qnaSeq}
+		 
+	</update>
+	
+	<delete id="qnadelete" parameterType="map">
+
+		DELETE FROM qnalist
+		 WHERE qnaSeq = #{qnaSeq}
+		 
+	</delete>
+	
+</mapper>

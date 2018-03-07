@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhy.usedBook.sql.usedBookMapper">
+	
+	<select id="select" resultType="map" parameterType="map">
+		SELECT *
+		FROM usedbook
+		
+     	<if test="null != title">
+     	WHERE title LIKE CONCAT('%', #{title}, '%')
+      	</if>
+      	<if test="null != startNo">
+     	LIMIT #{startNo}, 12
+     	</if>
+	</select>
+	
+	<select id="total_cnt" resultType="int" parameterType="map">
+		SELECT count(*) as total_cnt
+		FROM usedbook
+	</select>
+	
+	<insert id="write" parameterType="map" >
+		INSERT INTO usedbook (
+			title,
+			content,
+			price,
+			freight,
+			o_file_name,
+			n_file_name,
+			userid
+	
+		) VALUES (
+		  #{title},
+		  #{content},
+		  #{price},
+		  #{freight},
+		  #{o_file_name}, 
+		  #{n_file_name},
+		  #{userid}
+ 
+		)
+	</insert>
+	
+	
+	
+	<select id="selectSpec" resultType="map" parameterType="map">
+		SELECT *
+		FROM usedbook
+		WHERE seq = #{seq} 
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	<select id="search" resultType="map" parameterType="map">
+	 	SELECT *
+		FROM usedbook
+     	<if test="null != title">
+     	WHERE title LIKE CONCAT('%', #{title}, '%')
+      	</if>
+     	<if test="null != lineup">
+     		<if test="'title' == lineup">
+     			ORDER BY title ASC
+     		</if>
+     	</if>
+     	<if test="null != startNo">
+     	LIMIT #{startNo}, 12
+     	</if>
+	</select>
+	
+	
+	
+	
+	<update id="update" parameterType="map">
+		UPDATE usedbook 
+		SET
+		  title = #{title}
+		  ,content = #{content}
+		  ,price = #{price}
+		  ,freight = #{freight}
+		  
+		WHERE seq = #{seq}
+		 
+	</update>
+	
+	
+	<delete id="delete" parameterType="map">
+
+		DELETE FROM usedbook
+		 WHERE seq = #{seq}
+		 
+	</delete>
+	
+	
+	
+	
+	
+	
+	
+</mapper>

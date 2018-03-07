@@ -1,0 +1,10 @@
+CREATE DATABASE libsearch
+
+CREATE TABLE library (
+  libraryNumber INT(11) NOT NULL AUTO_INCREMENT,
+  libraryName VARCHAR(30) NOT NULL,
+  URL VARCHAR(200) NOT NULL,
+  Log VARCHAR(30) NOT NULL,
+  Lat VARCHAR(30) NOT NULL,
+  PRIMARY KEY (libraryNumber)
+);

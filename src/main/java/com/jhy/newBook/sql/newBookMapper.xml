@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhy.newBook.sql.newBookMapper"><!-- 인터페이스 -->
+<!-- id-메소드명   resultType=리턴타입   parameterType=파라미터타입 -->
+	
+
+	
+	<select id="select" resultType="map" parameterType="map">
+		
+		SELECT *
+		FROM recom_month_book
+		<if test="null != cur_month1">
+			WHERE recom_month = #{cur_month1}
+			OR recom_month = #{cur_month2}
+		</if>
+     	<!-- WHERE recom_month='11' 
+     	
+     	OR recom_month='10'  -->
+	</select>
+	
+	<select id="select2" resultType="map" parameterType="map">
+		SELECT *
+		FROM recom_month_book
+		
+		WHERE seq = #{seq}
+		
+	</select>
+	
+	<select id="insert" resultType="map" parameterType="map">
+	
+		UPDATE recom_month_book SET img_book = #{img_book} where seq = #{number}
+		
+	</select>
+</mapper>

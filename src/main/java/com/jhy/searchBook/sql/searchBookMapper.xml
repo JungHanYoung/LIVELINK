@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhy.searchBook.sql.searchBookMapper"><!-- 인터페이스 -->
+<!-- id-메소드명   resultType=리턴타입   parameterType=파라미터타입 -->
+	
+	
+	<update id="updateHits" parameterType="int">
+		UPDATE searchedulib
+		SET hits = hits + 1
+		WHERE seq = #{seq}
+	</update>
+
+	
+	<select id="select" resultType="map" parameterType="map">
+	
+	 	SELECT *
+		FROM searchedulib
+		
+     	<if test="null != title">
+     	WHERE title LIKE CONCAT('%', #{title}, '%')
+      	</if>
+     	<if test="null != lineup">
+     		<if test="'title' == lineup">
+     			ORDER BY title ASC
+     		</if>
+     		<if test="'hits' == lineup">
+     			ORDER BY hits DESC
+     		</if>
+     		<if test="'pubyear' == lineup">
+     			ORDER BY pubyear DESC
+     		</if>
+     	</if>
+     	<if test="null != startNo">
+     	LIMIT #{startNo}, 10
+     	</if>
+     	
+	</select>
+	
+	<select id="select2" parameterType="map" resultType="map">
+		SELECT * 
+		FROM searchedulib
+		WHERE seq=#{sequ} <!--우항 seq에는 클릭했을 때 값이 들어가지..?  -->
+	</select>
+	
+	
+	<select id="detail" resultType="map" parameterType="map">
+		
+		
+		SELECT searchedulib.*,library.*
+		FROM searchedulib,library
+		
+		WHERE searchedulib.libname =
+				replace(library.libraryName,' ','') 
+		AND searchedulib.seq = #{seq}
+		
+	</select>
+	
+	<select id="total_cnt" resultType="int" parameterType="map">
+		SELECT count(*) as total_cnt
+		FROM searchedulib
+		<if test="null != title">
+     	WHERE title LIKE CONCAT('%', #{title}, '%')
+      	</if>
+	</select>
+	
+	<select id="revise" resultType="map" parameterType="map">
+		SELECT *
+		FROM review
+		WHERE seq=#{sequ}
+	</select>
+</mapper>
