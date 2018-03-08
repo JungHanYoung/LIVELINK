@@ -20,10 +20,10 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @Aspect
 public class LoginAdvice {
 	
+	
+	// 사용 포인트컷 정리
 	@Pointcut("execution(* com.jhy.myPage.controller.myPageController.myFavorite(..))")
-	public void advice() {
-		System.out.println("�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾");
-	}
+	public void advice() {}
 	
 	@Pointcut("execution(* com.jhy.myPage.controller.myPageController.myReview(..))")
 	private void myReviewAdvice() {	}
@@ -31,9 +31,13 @@ public class LoginAdvice {
 	@Pointcut("execution(* com.jhy.searchLib.controller.searchLibController.insert(..))")
 	private void fav_lib_insert() { }
 	
+	
+	// 겹치는 포인트컷 설정
 	@Pointcut("advice() || myReviewAdvice() || fav_lib_insert()")
 	private void advice_myReviewAdvice() { }
 	
+	
+	//어드바이스 설정
 	@Before("advice_myReviewAdvice()")
 	public void checkSession(JoinPoint joinPoint) throws Throwable {
 		
