@@ -21,9 +21,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 public class MyAdvice {
 
 	@Pointcut("execution(* com.jhy.member.controller.MemberController.join(..))")
-	public void advice() {
-		System.out.println("�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾�쁾");
-	}
+	public void advice() {}
 
 	@Around("advice()")
 	public Object checkSession(ProceedingJoinPoint joinPoint) throws Throwable {

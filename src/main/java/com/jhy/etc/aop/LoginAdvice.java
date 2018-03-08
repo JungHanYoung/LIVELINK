@@ -6,9 +6,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -32,8 +34,8 @@ public class LoginAdvice {
 	@Pointcut("advice() || myReviewAdvice() || fav_lib_insert()")
 	private void advice_myReviewAdvice() { }
 	
-	@Around("advice_myReviewAdvice()")
-	public Object checkSession(ProceedingJoinPoint joinPoint) throws Throwable {
+	@Before("advice_myReviewAdvice()")
+	public void checkSession(JoinPoint joinPoint) throws Throwable {
 		
 		System.out.println("LoginAdvice -- Around...");
 
@@ -54,19 +56,17 @@ public class LoginAdvice {
 		Object ret;
 		if(session.getAttribute("userid") != null) {
 			System.out.println("user session exist - userid : " + session.getAttribute("userid"));
-			ret = joinPoint.proceed();
-			System.out.println("ProceedingJoinPoint executed. return value is [" + ret + "]");
-			return ret;
 		} else {
 			System.out.println("user session not exist");
+			response.setCharacterEncoding("UTF-8");
+			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter pw = response.getWriter();
 			pw.println("<script>");
-			pw.println("alert('httpServletResponse handling test')");
+			pw.println("alert('로그인을 해주세요!')");
 			pw.println("location.href='/'");
 			pw.println("</script>");
 			pw.flush();	// 해당 시점에 javascript 적용
 			pw.close();
-			return "redirect:/";
 		}
 		
 		
