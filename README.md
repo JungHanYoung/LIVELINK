@@ -37,7 +37,7 @@
 - MySQL 5.7
 
 ### ETC
-- SVN
+- SVN(형상관리)
 
 ### Implemented
 - 공공데이터 api 분석 및 연동
