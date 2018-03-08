@@ -5,7 +5,7 @@
 - 수행기간 : 2017-11-06 ~ 2017-12-12
 - 교육기관 : 중앙정보인재개발원
 - 프로젝트 구분 : 팀프로젝트(6명)
-- 배포여부 : AWS EC2(Linux) 배포중... [사이트 링크](http://http://ec2-18-219-192-167.us-east-2.compute.amazonaws.com/searchlib)
+- 배포여부 : AWS EC2(Linux) 배포중... [사이트 링크](http://ec2-18-219-192-167.us-east-2.compute.amazonaws.com)
 
 ### 기능
 - 서울에 있는 도서관 검색
