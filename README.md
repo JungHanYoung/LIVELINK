@@ -5,10 +5,10 @@
 - 수행기간 : 2017-11-06 ~ 2017-12-12
 - 교육기관 : 중앙정보인재개발원
 - 프로젝트 구분 : 팀프로젝트(6명)
-- 배포여부 : AWS EC2(Linux) 배포중... [사이트 링크](http://ec2-18-219-192-167.us-east-2.compute.amazonaws.com)
+- 배포여부 : AWS EC2 배포했다가 프리티어 기간 지남으로 중단
 
 ### 기능
-- 서울에 있는 도서관 검색
+- 서울에 있는 도서관 사용자 위치기반 검색
 - 자주가는 도서관에 대한 즐겨찾기 추가
 - 서울시 교육청 도서관의 도서를 검색
 - 도서에 대한 리뷰 작성
@@ -31,15 +31,11 @@
 - Mybatis 3.1.0
 - JavaMail
 - JSTL
-
-### WAS(Web Application Server)
+- MySQL 5.7
 - Apache Tomcat 8.0
 
-### Database
-- MySQL 5.7
-
 ### ETC
-- SVN(형상관리)
+- SVN
 
 ### Implemented
 - 공공데이터 api 분석 및 연동
